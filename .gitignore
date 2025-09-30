@@ -1,0 +1,20 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+env/
+venv/
+.ipynb_checkpoints/
+*.sqlite3
+
+# OS
+.DS_Store
+
+# Data
+data/*
+!data/.gitkeep
+
+# Streamlit
+.streamlit/
