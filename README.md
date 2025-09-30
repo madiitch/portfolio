@@ -1,8 +1,8 @@
 # Data Science & AI Portfolio
 
-This repository showcases end-to-end projects in data science, analytics, and AI with a focus on pharmaceutical and biotech use cases. It contains reproducible code, documentation, and lightweight apps suitable for demonstrating capabilities on Upwork.
+This repository showcases end-to-end projects in data science, analytics, and AI with a focus on pharmaceutical and biotech use cases. It contains reproducible code, documentation, and lightweight apps suitable for portfolio performance.
 
-**Owner:** _Your Name_  
+**Owner:** Zina Tevzadze
 **Created:** 2025-09-30
 
 ## Projects
