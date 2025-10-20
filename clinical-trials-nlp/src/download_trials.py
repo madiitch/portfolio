@@ -1,36 +1,58 @@
-import json, argparse, requests, sys, time
+import argparse, json, time
 from pathlib import Path
+import requests
 
-API = "https://clinicaltrials.gov/api/query/study_fields"
-FIELDS = ["NCTId","BriefTitle","BriefSummary","Phase","Condition","StudyType"]
+API = "https://clinicaltrials.gov/api/v2/studies"
 
-def fetch(query: str, max_records: int = 1000):
-    page_size = 200
+def fetch(query: str, max_records: int = 1000, page_size: int = 100):
+    """
+    Fetch studies from ClinicalTrials.gov v2 API.
+
+    We page using nextPageToken returned by the API, NOT numeric offsets.
+    We stop when we hit max_records or there are no more pages.
+    """
     out = []
-    for min_rnk in range(1, max_records+1, page_size):
-        max_rnk = min(min_rnk + page_size - 1, max_records)
+    page_token = None
+
+    while len(out) < max_records:
         params = {
-            "expr": query,
-            "fields": ",".join(FIELDS),
-            "min_rnk": min_rnk,
-            "max_rnk": max_rnk,
-            "fmt": "json"
+            "query.term": query,
+            "pageSize": page_size,
         }
+        if page_token:
+            params["pageToken"] = page_token
+
         r = requests.get(API, params=params, timeout=60)
         r.raise_for_status()
-        studies = r.json().get("StudyFieldsResponse", {}).get("StudyFields", [])
+        payload = r.json()
+
+        studies = payload.get("studies", []) or []
         for s in studies:
+            protocol = s.get("protocolSection", {}) or {}
+            id_info = protocol.get("identificationModule", {}) or {}
+            desc = protocol.get("descriptionModule", {}) or {}
+            design = protocol.get("designModule", {}) or {}
+            cond = protocol.get("conditionsModule", {}) or {}
+
             rec = {
-                "nct_id": (s.get("NCTId") or [""])[0],
-                "title": (s.get("BriefTitle") or [""])[0],
-                "brief_summary": (s.get("BriefSummary") or [""])[0],
-                "phase": (s.get("Phase") or [""])[0],
-                "condition": (s.get("Condition") or [""])[0],
-                "study_type": (s.get("StudyType") or [""])[0],
+                "nct_id": id_info.get("nctId"),
+                "title": id_info.get("briefTitle"),
+                "brief_summary": desc.get("briefSummary"),
+                "phase": (design.get("phases") or [None])[0] if design.get("phases") else None,
+                "condition": (cond.get("conditions") or [None])[0] if cond.get("conditions") else None,
+                "study_type": design.get("studyType"),
             }
             out.append(rec)
-        time.sleep(0.2)
-    return out
+            if len(out) >= max_records:
+                break
+
+        page_token = payload.get("nextPageToken")
+        if not page_token or not studies:
+            break
+
+        time.sleep(0.2)  # be polite
+
+    return out[:max_records]
 
 def main():
     ap = argparse.ArgumentParser()

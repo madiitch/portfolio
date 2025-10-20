@@ -2,11 +2,13 @@
 
 **Goal:** Build an NLP pipeline that downloads ClinicalTrials.gov studies, cleans text, and trains a classifier to predict **study phase** from brief summaries. Extend with **endpoint extraction** (NER) to identify primary endpoints.
 
-## Why It Matters
-Sponsors and investors need rapid landscape scans. A light classifier + NER can triage studies by phase and extract endpoints for competitive intel.
-
-## Data
-- Source: ClinicalTrials.gov API (public). Scripts will download JSON for specified conditions/keywords.
+**Baseline Model - Logistic Regression**
+- Dataset: 2000 cancer clinical trials from ClinicalTrials.gov (you can change query and number of records).
+- Task: predict trial phase (1-4) from brief summary text.
+- Model: TF-IDF + Logistic Regression.
+- Accuracy for 2000 cancer clinical trials is 65% on holdout set.
+- Observations: class imbalance caused the model to overpredict Phase 3.
+- Next steps: label normalization and dataset expansion for better coverage.
 
 ## How to Run
 

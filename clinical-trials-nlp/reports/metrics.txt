@@ -1,0 +1,16 @@
+Class distribution used:
+PHASE 2: 488
+PHASE 1: 423
+PHASE 3: 124
+PHASE 4: 61
+
+              precision    recall  f1-score   support
+
+     PHASE 1      0.756     0.694     0.724        85
+     PHASE 2      0.589     0.847     0.695        98
+     PHASE 3      1.000     0.040     0.077        25
+     PHASE 4      0.000     0.000     0.000        12
+
+    accuracy                          0.650       220
+   macro avg      0.586     0.395     0.374       220
+weighted avg      0.668     0.650     0.598       220
