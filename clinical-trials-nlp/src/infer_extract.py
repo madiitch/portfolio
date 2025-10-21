@@ -3,9 +3,13 @@ from pathlib import Path
 
 # Simple rule-based endpoint extractor for demo. Replace with spaCy/transformers NER as needed.
 ENDPOINT_PATTERNS = [
-    r"primary endpoint[s]?:?\s*(.*?)(?:\.|$)",
-    r"objective[s]?:?\s*(.*?)(?:\.|$)",
-    r"measure[s]?:?\s*(.*?)(?:\.|$)",
+    r"primary endpoint[s]?:?\s*(.*?)(?:\.|;|$)",
+    r"primary outcome[s]?:?\s*(.*?)(?:\.|;|$)",
+    r"key (?:secondary|efficacy) endpoint[s]?:?\s*(.*?)(?:\.|;|$)",
+    r"(?:main|key) outcome measure[s]?:?\s*(.*?)(?:\.|;|$)",
+    r"(?:objective|aim)s?:?\s*(.*?)(?:\.|;|$)",
+    r"will assess\s*(.*?)(?:\.|;|$)",
+    r"measure(?:s|ment) of\s*(.*?)(?:\.|;|$)",
 ]
 
 def extract(text: str):
