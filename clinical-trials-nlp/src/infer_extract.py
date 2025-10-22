@@ -8,17 +8,24 @@ ENDPOINT_PATTERNS = [
     r"key (?:secondary|efficacy) endpoint[s]?:?\s*(.*?)(?:\.|;|$)",
     r"(?:main|key) outcome measure[s]?:?\s*(.*?)(?:\.|;|$)",
     r"(?:objective|aim)s?:?\s*(.*?)(?:\.|;|$)",
-    r"will assess\s*(.*?)(?:\.|;|$)",
-    r"measure(?:s|ment) of\s*(.*?)(?:\.|;|$)",
+    r"will assess\s+(.*?)(?:\.|;|$)",
+    r"to assess\s+(.*?)(?:\.|;|$)",
+    r"to evaluate\s+(.*?)(?:\.|;|$)",
+    r"to determine\s+(.*?)(?:\.|;|$)",
+    r"efficacy of\s+(.*?)(?:\.|;|$)",
+    r"measur(?:e|ement) of\s+(.*?)(?:\.|;|$)",
 ]
 
-def extract(text: str):
-    text = (text or "").lower()
-    hits = []
+def extract_endpoints(text):
+    endpoints = []
     for pat in ENDPOINT_PATTERNS:
-        m = re.search(pat, text)
-        if m: hits.append(m.group(1).strip())
-    return list(dict.fromkeys(hits))[:5]
+        match = re.search(pat, text, re.IGNORECASE)
+        if match:
+            endpoint = match.group(1)
+            endpoint = endpoint.strip().strip(":;,.")
+            if endpoint:
+                endpoints.append(endpoint)
+    return endpoints
 
 def main():
     ap = argparse.ArgumentParser()
@@ -30,7 +37,7 @@ def main():
     with open(args.input,"r",encoding="utf-8") as f_in, open(args.out,"w",encoding="utf-8") as f_out:
         for line in f_in:
             rec = json.loads(line)
-            rec["extracted_endpoints"] = extract(rec.get("brief_summary",""))
+            rec["extracted_endpoints"] = extract_endpoints(rec.get("brief_summary",""))
             f_out.write(json.dumps(rec, ensure_ascii=False)+"\n")
     print(f"Wrote endpoint annotations to {args.out}")
 
