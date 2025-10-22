@@ -1,18 +1,38 @@
-# Pharmacovigilance Signal Detection (FAERS/OpenFDA)
+# Pharmacovigilance Signal Detection
 
-**Goal:** Implement disproportionality analyses (PRR, ROR, EBGM-lite) on adverse event reports to surface drug-event signals.
+Prototype pharmacovigilance workflow for pulling adverse event reports from OpenFDA and generating quick signal-screening metrics.
+
+## Portfolio Framing
+
+This project is best understood as a lightweight safety analytics prototype:
+
+- it demonstrates public-data ingestion from OpenFDA
+- it creates a simple reproducible pipeline for drug-event review
+- it shows how signal metrics can be exported for downstream assessment
 
 ## Data
-- FAERS via OpenFDA API (public). The download script pulls quarterly counts for specified drugs/events.
+
+- Source: public OpenFDA drug event endpoint
+- Input shape: JSON lines of matching adverse event reports for a specific drug-event query
 
 ## How to Run
 
+Run from inside `pv-signal-detection/`:
+
 ```bash
-pip install -r ../../requirements.txt
+pip install -r ../requirements.txt
 
-# Example: count event terms for a drug
 python src/download_faers.py --drug "adalimumab" --event "headache" --out data/adalimumab_headache.jsonl
-
-# Compute disproportionality metrics (requires a background rate file; script can approximate from pulls)
 python src/disproportionality.py --input data/adalimumab_headache.jsonl --out reports/signal_metrics.csv
 ```
+
+## What This Produces
+
+- `data/*.jsonl`: raw pulled event reports
+- `reports/signal_metrics.csv`: quick metric summary for screening
+
+## Limitations
+
+- The current metric calculation is intentionally simplified for portfolio demonstration
+- It is useful for workflow illustration, not for validated regulatory signal detection
+- A production version would use complete contingency tables, better background definitions, deduplication, and more robust Bayesian metrics

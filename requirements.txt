@@ -1,19 +1,11 @@
-
 pandas
 numpy
 scikit-learn
-scipy
+scipy<1.13
 matplotlib
 streamlit
 requests
-pydantic
-torch; platform_system != "Darwin" or platform_machine != "arm64"
-transformers
-accelerate
-typer
-statsmodels
+joblib
 pymc
 arviz
-tqdm
-spacy
-spacy-transformers
+tabulate

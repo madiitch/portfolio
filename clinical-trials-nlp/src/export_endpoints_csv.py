@@ -1,10 +1,13 @@
 import argparse, json, csv
+from pathlib import Path
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--input", required=True)
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
+
+    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
 
     with open(args.input, "r", encoding="utf-8") as f_in, \
          open(args.out, "w", newline="", encoding="utf-8") as f_out:
@@ -23,6 +26,8 @@ def main():
                 eps[2] if len(eps)>2 else "",
             ]
             w.writerow(row)
+
+    print(f"Wrote CSV preview to {args.out}")
 
 if __name__ == "__main__":
     main()

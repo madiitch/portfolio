@@ -1,5 +1,5 @@
-import argparse, json, math, csv
-from collections import Counter
+import argparse, csv
+from pathlib import Path
 
 def main():
     ap = argparse.ArgumentParser()
@@ -26,11 +26,28 @@ def main():
     d = max(background_total - c, 1)
 
     prr = (a / b) / (c / d)
+    ror = (a * d) / (b * c)
+
+    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
 
     with open(args.out, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["total_reports","event_count","background_total","background_event","PRR_est"])
-        w.writerow([total_reports, event_count, background_total, background_event, round(prr,4)])
+        w.writerow([
+            "total_reports",
+            "event_count",
+            "background_total",
+            "background_event",
+            "PRR_est",
+            "ROR_est",
+        ])
+        w.writerow([
+            total_reports,
+            event_count,
+            background_total,
+            background_event,
+            round(prr, 4),
+            round(ror, 4),
+        ])
 
     print(f"Wrote metrics to {args.out}")
 

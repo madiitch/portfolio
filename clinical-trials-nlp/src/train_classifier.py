@@ -1,4 +1,4 @@
-import argparse, json, re
+import argparse
 from pathlib import Path
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -40,7 +40,7 @@ def main():
     ap.add_argument("--text_field", default="brief_summary")
     ap.add_argument("--label_field", default="phase")
     ap.add_argument("--model_out", default="models/baseline.joblib")
-    ap.add_argument("--report_out", default="clinical-trials-nlp/reports/metrics.txt")
+    ap.add_argument("--report_out", default="reports/metrics.txt")
     args = ap.parse_args()
 
     Path(args.model_out).parent.mkdir(parents=True, exist_ok=True)
