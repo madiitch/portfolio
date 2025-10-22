@@ -10,31 +10,6 @@
 - Observations: class imbalance caused the model to underpredict Phase III and IV.
 - Next steps: label normalization and dataset expansion for better coverage.
 
-## Project Structure
-
-clinical-trials-nlp/
-├── data/
-│   ├── trials.jsonl
-│   ├── endpoints.jsonl
-│   └── .gitkeep
-├── models/
-│   └── .gitkeep
-├── notebook/
-│   └── eda.ipynb
-├── reports/
-│   ├── metrics.txt
-│   ├── endpoints_preview.csv
-|   ├── fig_phase_distribution.png
-|   ├── phase_dist_2.png
-|   └── pie.png
-├── src/
-│   ├── download_trials.py
-│   ├── train_classifier.py
-│   ├── infer_extract.py
-│   └── export_endpoints_csv.py
-├── README.md
-
-
 ## How to Run
 
 ```bash
