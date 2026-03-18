@@ -50,12 +50,6 @@ Interactive Streamlit app that turns technical medical text into a structured br
 - Demo style: works as a no-API rule-based summarizer and can be extended to external model providers
 - Folder: [`llm-lit-summarizer`](./llm-lit-summarizer)
 
-## Why This Portfolio Works For Freelance
-
-- Each project is scoped like a client deliverable, not just a notebook experiment
-- Code is organized by use case with runnable scripts and outputs
-- Technical work is paired with business context so non-technical buyers can understand value fast
-- The repo is honest about limitations and leaves clear extension paths for production work
 
 ## Quick Start
 
